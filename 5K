@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Sub-24 5K Plan</title>
+
+  <!-- PWA / iOS home screen -->
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="5K Plan" />
+  <meta name="theme-color" content="#0a0a0f" />
+
+  <!-- React via CDN (no build step needed) -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #0a0a0f; min-height: 100%; }
+    body { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #111; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+    .week-btn { transition: all 0.2s; }
+    .week-btn:hover { background: rgba(255,255,255,0.07) !important; }
+    .day-card { transition: all 0.2s; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .day-card:active { transform: scale(0.98); opacity: 0.85; }
+    .done-card { opacity: 0.45; }
+  </style>
+
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    const { useState, useEffect, createElement: h } = React;
+
+```
+const plan = [
+  { week:1, theme:"Build the Base", days:[
+    { label:"Mon", type:"Easy",  session:"Easy Run",        detail:"3 km at a comfortable, conversational pace", emoji:"🟢" },
+    { label:"Wed", type:"Speed", session:"Intervals",        detail:"4 × 400m at your target 5K pace (4:48/km), 90s rest between each", emoji:"🔴" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run",        detail:"2 km at a comfortably hard effort (~5:10/km)", emoji:"🟡" },
+    { label:"Sun", type:"Long",  session:"Long Easy Run",    detail:"5 km slow and steady — don't rush it", emoji:"🔵" },
+  ]},
+  { week:2, theme:"Find Your Rhythm", days:[
+    { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"3 km easy — legs should feel fresh", emoji:"🟢" },
+    { label:"Wed", type:"Speed", session:"Intervals",         detail:"5 × 400m at 5K pace, 90s rest between each", emoji:"🔴" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run",         detail:"2.5 km at ~5:05/km — comfortably hard", emoji:"🟡" },
+    { label:"Sun", type:"Long",  session:"Long Easy Run",     detail:"6 km easy — build endurance, not speed", emoji:"🔵" },
+  ]},
+  { week:3, theme:"Push the Pace", days:[
+    { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"4 km easy recovery", emoji:"🟢" },
+    { label:"Wed", type:"Speed", session:"Intervals",         detail:"4 × 600m at 5K pace, 2 min rest between each", emoji:"🔴" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run",         detail:"2.5 km at ~5:00/km — getting harder", emoji:"🟡" },
+    { label:"Sun", type:"Long",  session:"Long Easy Run",     detail:"6.5 km — keep it slow and controlled", emoji:"🔵" },
+  ]},
+  { week:4, theme:"Lock in the Effort", days:[
+    { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"4 km easy", emoji:"🟢" },
+    { label:"Wed", type:"Speed", session:"Intervals",         detail:"5 × 600m at 5K pace, 2 min rest between each", emoji:"🔴" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run",         detail:"3 km at ~4:58/km — you're getting stronger", emoji:"🟡" },
+    { label:"Sun", type:"Long",  session:"Long Easy Run",     detail:"7 km — long and easy, enjoy it", emoji:"🔵" },
+  ]},
+  { week:5, theme:"Race Pace Sharpening", days:[
+    { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"4 km easy — legs fresh for Wednesday", emoji:"🟢" },
+    { label:"Wed", type:"Speed", session:"Intervals",         detail:"3 × 1 km at goal race pace (4:48/km), 2.5 min rest", emoji:"🔴" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run",         detail:"3 km at ~4:55/km — controlled and steady", emoji:"🟡" },
+    { label:"Sun", type:"Long",  session:"Long Easy Run",     detail:"7.5 km easy — biggest long run yet", emoji:"🔵" },
+  ]},
+  { week:6, theme:"Peak Volume", days:[
+    { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"4 km easy", emoji:"🟢" },
+    { label:"Wed", type:"Speed", session:"Intervals",         detail:"4 × 1 km at race pace (4:48/km), 2.5 min rest", emoji:"🔴" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run",         detail:"3 km at ~4:52/km — hardest tempo yet", emoji:"🟡" },
+    { label:"Sun", type:"Long",  session:"Long Easy Run",     detail:"8 km — your peak long run 💪", emoji:"🔵" },
+  ]},
+  { week:7, theme:"Sharpen & Taper", days:[
+    { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"3 km easy — start feeling fresh", emoji:"🟢" },
+    { label:"Wed", type:"Speed", session:"Sharpener",         detail:"3 × 1 km at race pace — stay sharp, don't overdo it", emoji:"🔴" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run",         detail:"2 km at 4:48/km — short and snappy", emoji:"🟡" },
+    { label:"Sun", type:"Long",  session:"Easy Run",          detail:"5 km easy — no need for long now", emoji:"🔵" },
+  ]},
+  { week:8, theme:"Race Week 🏁", days:[
+    { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"3 km very easy — just keep the legs moving", emoji:"🟢" },
+    { label:"Wed", type:"Speed", session:"Tune-up Strides",  detail:"2 × 1 km at race pace + 4 × 100m strides — feel fast", emoji:"🔴" },
+    { label:"Fri", type:"Rest",  session:"Rest / Walk",      detail:"Full rest or gentle 20-min walk — save the legs", emoji:"⚪" },
+    { label:"Sun", type:"Race",  session:"🏆 RACE DAY",      detail:"Go sub-24! Start at 4:45/km and trust your training", emoji:"🏆" },
+  ]},
+];
+
+const tips = [
+  "Run easy days EASY — most runners go too fast on recovery days.",
+  "Tempo pace = you can speak a word or two, but not a sentence.",
+  "Intervals at 4:48/km feel hard. If it feels easy, you're not pushing enough.",
+  "Sleep and nutrition matter as much as the sessions themselves.",
+  "The long run builds your aerobic engine — never skip it.",
+  "Week 8 taper is real — trust it, don't add extra runs.",
+];
+
+const typeStyle = {
+  Easy:  { bg:"rgba(74,222,128,0.1)",  color:"#4ade80", border:"rgba(74,222,128,0.2)"  },
+  Speed: { bg:"rgba(239,68,68,0.1)",   color:"#f87171", border:"rgba(239,68,68,0.2)"   },
+  Tempo: { bg:"rgba(251,191,36,0.1)",  color:"#fbbf24", border:"rgba(251,191,36,0.2)"  },
+  Long:  { bg:"rgba(96,165,250,0.1)",  color:"#60a5fa", border:"rgba(96,165,250,0.2)"  },
+  Rest:  { bg:"rgba(100,100,100,0.1)", color:"#666",    border:"rgba(100,100,100,0.2)" },
+  Race:  { bg:"rgba(250,204,21,0.15)", color:"#facc15", border:"rgba(250,204,21,0.3)"  },
+};
+
+const pacing = [
+  ["Easy pace","7:25–7:50/mi"],["Tempo pace","4:50–5:05/km"],
+  ["Interval pace","4:48/km"], ["Sub-24 avg","4:48/km"],
+];
+
+function App() {
+  const [activeWeek, setActiveWeek] = useState(0);
+  const [completedDays, setCompletedDays] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("5k-progress") || "{}"); } catch { return {}; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("5k-progress", JSON.stringify(completedDays)); } catch {}
+  }, [completedDays]);
+
+  const toggleDay = (wi, di) => {
+    const key = `${wi}-${di}`;
+    setCompletedDays(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const week = plan[activeWeek];
+  const doneCount = Object.values(completedDays).filter(Boolean).length;
+  const pct = Math.round((doneCount / (plan.length * 4)) * 100);
+  const mono = "'DM Mono','Courier New',monospace";
+  const syne = "'Syne',sans-serif";
+
+  return h("div", { style:{ fontFamily:mono, background:"#0a0a0f", minHeight:"100vh", color:"#e2e2e8" } },
+
+    h("div", { style:{ background:"linear-gradient(135deg,#0f0f1a 0%,#1a0a0a 100%)", borderBottom:"1px solid #1e1e2e", padding:"36px 24px 28px" } },
+      h("div", { style:{ maxWidth:640, margin:"0 auto" } },
+        h("div", { style:{ display:"flex", alignItems:"center", gap:10, marginBottom:8 } },
+          h("span", { style:{ fontSize:26 } }, "🏃"),
+          h("span", { style:{ fontFamily:syne, fontSize:11, letterSpacing:"0.2em", color:"#555", textTransform:"uppercase" } }, "8-Week Training Plan")
+        ),
+        h("h1", { style:{ fontFamily:syne, fontSize:"clamp(26px,8vw,40px)", fontWeight:800, lineHeight:1.1, marginBottom:8 } },
+          "Sub-", h("span", { style:{ color:"#ef4444" } }, "24"), " Minute 5K Goal"
+        ),
+        h("p", { style:{ color:"#555", fontSize:12, marginBottom:20 } }, "Current: 25–27 min · 4 days/week · Target: 4:48/km"),
+        h("div", { style:{ display:"flex", alignItems:"center", gap:12 } },
+          h("div", { style:{ flex:1, height:4, background:"#1e1e2e", borderRadius:2, overflow:"hidden" } },
+            h("div", { style:{ width:pct+"%", height:"100%", background:"linear-gradient(90deg,#ef4444,#f97316)", borderRadius:2, transition:"width 0.4s" } })
+          ),
+          h("span", { style:{ fontSize:11, color:"#444", whiteSpace:"nowrap" } }, pct+"% done")
+        )
+      )
+    ),
+
+    h("div", { style:{ maxWidth:640, margin:"0 auto", padding:"24px 16px 48px" } },
+
+      h("div", { style:{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:28 } },
+        plan.map((w, i) => {
+          const active = i === activeWeek;
+          const wDone = [0,1,2,3].every(d => completedDays[i+"-"+d]);
+          return h("button", { key:i, className:"week-btn", onClick:() => setActiveWeek(i), style:{
+            padding:"6px 13px", borderRadius:6,
+            border: active ? "1px solid #ef4444" : "1px solid #1e1e2e",
+            background: active ? "rgba(239,68,68,0.12)" : "rgba(255,255,255,0.03)",
+            color: active ? "#ef4444" : wDone ? "#4ade80" : "#555",
+            fontSize:12, cursor:"pointer", fontFamily:mono,
+          }}, "W"+(i+1)+(wDone?" ✓":""));
+        })
+      ),
+
+      h("div", { style:{ marginBottom:20 } },
+        h("div", { style:{ display:"flex", alignItems:"baseline", gap:10 } },
+          h("span", { style:{ fontFamily:syne, fontSize:30, fontWeight:800 } }, "Week "+week.week),
+          h("span", { style:{ color:"#444", fontSize:13 } }, "of 8")
+        ),
+        h("p", { style:{ color:"#777", fontSize:14, marginTop:2 } }, week.theme)
+      ),
+
+      h("div", { style:{ display:"flex", flexDirection:"column", gap:10, marginBottom:32 } },
+        week.days.map((day, di) => {
+          const key = activeWeek+"-"+di;
+          const isDone = completedDays[key];
+          const ts = typeStyle[day.type];
+          return h("div", { key:di, className:"day-card"+(isDone?" done-card":""), onClick:() => toggleDay(activeWeek, di), style:{
+            display:"flex", alignItems:"flex-start", gap:14, padding:"16px 18px", borderRadius:10,
+            border:"1px solid "+(isDone?"#222":"#1e1e2e"),
+            background: isDone ? "rgba(255,255,255,0.01)" : "rgba(255,255,255,0.03)",
+            position:"relative", overflow:"hidden",
+          }},
+            isDone && h("div", { style:{ position:"absolute", top:0, left:0, width:3, height:"100%", background:"#4ade80" } }),
+            h("div", { style:{ textAlign:"center", minWidth:34 } },
+              h("div", { style:{ fontSize:10, color:"#444" } }, day.label),
+              h("div", { style:{ fontSize:22, marginTop:2 } }, isDone ? "✅" : day.emoji)
+            ),
+            h("div", { style:{ flex:1 } },
+              h("div", { style:{ display:"flex", alignItems:"center", gap:8, marginBottom:5, flexWrap:"wrap" } },
+                h("span", { style:{ fontFamily:syne, fontSize:15, fontWeight:700 } }, day.session),
+                h("span", { style:{ fontSize:10, padding:"2px 7px", borderRadius:4, border:"1px solid", letterSpacing:"0.08em", textTransform:"uppercase", backgroundColor:ts.bg, color:ts.color, borderColor:ts.border } }, day.type)
+              ),
+              h("p", { style:{ fontSize:13, color: isDone ? "#3a3a3a" : "#777", lineHeight:1.5 } }, day.detail)
+            )
+          );
+        })
+      ),
+
+      h("div", { style:{ background:"rgba(239,68,68,0.05)", border:"1px solid rgba(239,68,68,0.15)", borderRadius:10, padding:"18px 20px", marginBottom:20 } },
+        h("div", { style:{ fontFamily:syne, fontSize:12, fontWeight:700, color:"#ef4444", marginBottom:12, letterSpacing:"0.06em" } }, "📐 PACING GUIDE"),
+        h("div", { style:{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 } },
+          pacing.map(([label, val]) => h("div", { key:label },
+            h("div", { style:{ fontSize:10, color:"#444" } }, label),
+            h("div", { style:{ fontSize:14, color:"#e2e2e8", fontWeight:500 } }, val)
+          ))
+        )
+      ),
+
+      h("div", { style:{ border:"1px solid #1e1e2e", borderRadius:10, padding:"18px 20px" } },
+        h("div", { style:{ fontFamily:syne, fontSize:12, fontWeight:700, color:"#555", marginBottom:12, letterSpacing:"0.06em" } }, "💡 TRAINING TIPS"),
+        tips.map((tip, i) => h("div", { key:i, style:{ display:"flex", gap:10, marginBottom: i<tips.length-1?10:0 } },
+          h("span", { style:{ color:"#2a2a2a", fontSize:12, marginTop:1, flexShrink:0 } }, "—"),
+          h("p", { style:{ fontSize:12, color:"#555", lineHeight:1.6 } }, tip)
+        ))
+      ),
+
+      h("p", { style:{ textAlign:"center", fontSize:11, color:"#2a2a2a", marginTop:24 } }, "Tap any session to mark it complete")
+    )
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));
+```
+
+  </script>
+</body>
+</html>
