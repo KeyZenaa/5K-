@@ -161,55 +161,70 @@
 
 <script>
   const plan = [
-    { week:1, theme:"Build the Base", days:[
-      { label:"Mon", type:"Easy",  session:"Easy Run",        detail:"3 km at a comfortable, conversational pace", emoji:"🟢" },
-      { label:"Wed", type:"Speed", session:"Intervals",        detail:"4 × 400m at your target 5K pace (4:48/km), 90s rest between each", emoji:"🔴" },
-      { label:"Fri", type:"Tempo", session:"Tempo Run",        detail:"2 km at a comfortably hard effort (~5:10/km)", emoji:"🟡" },
-      { label:"Sun", type:"Long",  session:"Long Easy Run",    detail:"5 km slow and steady — don't rush it", emoji:"🔵" },
-    ]},
-    { week:2, theme:"Find Your Rhythm", days:[
-      { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"3 km easy — legs should feel fresh", emoji:"🟢" },
-      { label:"Wed", type:"Speed", session:"Intervals",         detail:"5 × 400m at 5K pace, 90s rest between each", emoji:"🔴" },
-      { label:"Fri", type:"Tempo", session:"Tempo Run",         detail:"2.5 km at ~5:05/km — comfortably hard", emoji:"🟡" },
-      { label:"Sun", type:"Long",  session:"Long Easy Run",     detail:"6 km easy — build endurance, not speed", emoji:"🔵" },
-    ]},
-    { week:3, theme:"Push the Pace", days:[
-      { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"4 km easy recovery", emoji:"🟢" },
-      { label:"Wed", type:"Speed", session:"Intervals",         detail:"4 × 600m at 5K pace, 2 min rest between each", emoji:"🔴" },
-      { label:"Fri", type:"Tempo", session:"Tempo Run",         detail:"2.5 km at ~5:00/km — getting harder", emoji:"🟡" },
-      { label:"Sun", type:"Long",  session:"Long Easy Run",     detail:"6.5 km — keep it slow and controlled", emoji:"🔵" },
-    ]},
-    { week:4, theme:"Lock in the Effort", days:[
-      { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"4 km easy", emoji:"🟢" },
-      { label:"Wed", type:"Speed", session:"Intervals",         detail:"5 × 600m at 5K pace, 2 min rest between each", emoji:"🔴" },
-      { label:"Fri", type:"Tempo", session:"Tempo Run",         detail:"3 km at ~4:58/km — you're getting stronger", emoji:"🟡" },
-      { label:"Sun", type:"Long",  session:"Long Easy Run",     detail:"7 km — long and easy, enjoy it", emoji:"🔵" },
-    ]},
-    { week:5, theme:"Race Pace Sharpening", days:[
-      { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"4 km easy — legs fresh for Wednesday", emoji:"🟢" },
-      { label:"Wed", type:"Speed", session:"Intervals",         detail:"3 × 1 km at goal race pace (4:48/km), 2.5 min rest", emoji:"🔴" },
-      { label:"Fri", type:"Tempo", session:"Tempo Run",         detail:"3 km at ~4:55/km — controlled and steady", emoji:"🟡" },
-      { label:"Sun", type:"Long",  session:"Long Easy Run",     detail:"7.5 km easy — biggest long run yet", emoji:"🔵" },
-    ]},
-    { week:6, theme:"Peak Volume", days:[
-      { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"4 km easy", emoji:"🟢" },
-      { label:"Wed", type:"Speed", session:"Intervals",         detail:"4 × 1 km at race pace (4:48/km), 2.5 min rest", emoji:"🔴" },
-      { label:"Fri", type:"Tempo", session:"Tempo Run",         detail:"3 km at ~4:52/km — hardest tempo yet", emoji:"🟡" },
-      { label:"Sun", type:"Long",  session:"Long Easy Run",     detail:"8 km — your peak long run 💪", emoji:"🔵" },
-    ]},
-    { week:7, theme:"Sharpen & Taper", days:[
-      { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"3 km easy — start feeling fresh", emoji:"🟢" },
-      { label:"Wed", type:"Speed", session:"Sharpener",         detail:"3 × 1 km at race pace — stay sharp, don't overdo it", emoji:"🔴" },
-      { label:"Fri", type:"Tempo", session:"Tempo Run",         detail:"2 km at 4:48/km — short and snappy", emoji:"🟡" },
-      { label:"Sun", type:"Long",  session:"Easy Run",          detail:"5 km easy — no need for long now", emoji:"🔵" },
-    ]},
-    { week:8, theme:"Race Week 🏁", days:[
-      { label:"Mon", type:"Easy",  session:"Easy Run",         detail:"3 km very easy — just keep the legs moving", emoji:"🟢" },
-      { label:"Wed", type:"Speed", session:"Tune-up Strides",  detail:"2 × 1 km at race pace + 4 × 100m strides — feel fast", emoji:"🔴" },
-      { label:"Fri", type:"Rest",  session:"Rest / Walk",      detail:"Full rest or gentle 20-min walk — save the legs", emoji:"⚪" },
-      { label:"Sun", type:"Race",  session:"🏆 RACE DAY",      detail:"Go sub-24! Start at 4:45/km and trust your training", emoji:"🏆" },
-    ]},
-  ];
+  { week:1, theme:"Build the Base", days:[
+    { label:"Tue", type:"Speed", session:"Intervals", detail:"Warmup 10–15 min + 4 × 400m at 5K pace (4:48/km), 90s rest + cooldown", emoji:"🔴" },
+    { label:"Wed", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run", detail:"Warmup + 2 km at ~5:10/km + cooldown", emoji:"🟡" },
+    { label:"Sat", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Sun", type:"Long", session:"Long Easy Run", detail:"5 km easy", emoji:"🔵" },
+  ]},
+
+  { week:2, theme:"Find Your Rhythm", days:[
+    { label:"Tue", type:"Speed", session:"Intervals", detail:"Warmup + 5 × 400m at 5K pace, 90s rest + cooldown", emoji:"🔴" },
+    { label:"Wed", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run", detail:"Warmup + 2.5 km at ~5:05/km + cooldown", emoji:"🟡" },
+    { label:"Sat", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Sun", type:"Long", session:"Long Easy Run", detail:"6 km easy", emoji:"🔵" },
+  ]},
+
+  { week:3, theme:"Push the Pace", days:[
+    { label:"Tue", type:"Speed", session:"Intervals", detail:"Warmup + 4 × 600m at 5K pace, 2 min rest + cooldown", emoji:"🔴" },
+    { label:"Wed", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run", detail:"Warmup + 2.5 km at ~5:00/km + cooldown", emoji:"🟡" },
+    { label:"Sat", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Sun", type:"Long", session:"Long Easy Run", detail:"6.5 km easy", emoji:"🔵" },
+  ]},
+
+  { week:4, theme:"Lock in the Effort", days:[
+    { label:"Tue", type:"Speed", session:"Intervals", detail:"Warmup + 5 × 600m at 5K pace, 2 min rest + cooldown", emoji:"🔴" },
+    { label:"Wed", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run", detail:"Warmup + 3 km at ~4:58/km + cooldown", emoji:"🟡" },
+    { label:"Sat", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Sun", type:"Long", session:"Long Easy Run", detail:"7 km easy", emoji:"🔵" },
+  ]},
+
+  { week:5, theme:"Race Pace Sharpening", days:[
+    { label:"Tue", type:"Speed", session:"Intervals", detail:"Warmup + 3 × 1 km at race pace (4:48/km), 2.5 min rest + cooldown", emoji:"🔴" },
+    { label:"Wed", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run", detail:"Warmup + 3 km at ~4:55/km + cooldown", emoji:"🟡" },
+    { label:"Sat", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Sun", type:"Long", session:"Long Easy Run", detail:"7.5 km easy", emoji:"🔵" },
+  ]},
+
+  { week:6, theme:"Peak Volume", days:[
+    { label:"Tue", type:"Speed", session:"Intervals", detail:"Warmup + 4 × 1 km at race pace, 2.5 min rest + cooldown", emoji:"🔴" },
+    { label:"Wed", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run", detail:"Warmup + 3 km at ~4:52/km + cooldown", emoji:"🟡" },
+    { label:"Sat", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Sun", type:"Long", session:"Long Easy Run", detail:"8 km easy", emoji:"🔵" },
+  ]},
+
+  { week:7, theme:"Sharpen & Taper", days:[
+    { label:"Tue", type:"Speed", session:"Sharpener", detail:"Warmup + 3 × 1 km at race pace + cooldown", emoji:"🔴" },
+    { label:"Wed", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Fri", type:"Tempo", session:"Tempo Run", detail:"Warmup + 2 km at 4:48/km + cooldown", emoji:"🟡" },
+    { label:"Sat", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Sun", type:"Long", session:"Easy Run", detail:"5 km easy", emoji:"🔵" },
+  ]},
+
+  { week:8, theme:"Race Week 🏁", days:[
+    { label:"Tue", type:"Speed", session:"Tune-up Strides", detail:"4 × 100m strides after easy jog — stay fresh", emoji:"🔴" },
+    { label:"Wed", type:"Easy", session:"Mandatory Easy 5K", detail:"5 km easy", emoji:"🟢" },
+    { label:"Fri", type:"Rest", session:"Rest / Walk", detail:"Full recovery day", emoji:"⚪" },
+    { label:"Sat", type:"Easy", session:"Shakeout Run", detail:"3 km easy", emoji:"🟢" },
+    { label:"Sun", type:"Race", session:"🏆 RACE DAY", detail:"Go sub-24 — aim for 4:48/km average pace", emoji:"🏆" },
+  ]},
+];
 
   const TOTAL = plan.length * 4;
   let activeWeek = 0;
