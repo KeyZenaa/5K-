@@ -120,7 +120,7 @@
   <div class="header-inner">
     <div class="header-label">🏃 8-Week Training Plan</div>
     <h1>Sub-<span>24</span> Minute 5K Goal</h1>
-    <p class="header-sub">Current: 25–27 min · 4 days/week · Target: 4:48/km</p>
+    <p class="header-sub">Current: 25–27 min · 5 days/week · Target: 4:48/km</p>
     <div class="progress-wrap">
       <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
       <div class="progress-label" id="progress-label">0% done</div>
@@ -139,7 +139,7 @@
   <div class="pacing">
     <div class="section-title">📐 PACING GUIDE</div>
     <div class="pacing-grid">
-      <div><div class="pacing-item-label">Easy pace</div><div class="pacing-item-val">7:25–7:50/mi</div></div>
+      <div><div class="pacing-item-label">Easy pace</div><div class="pacing-item-val">7:25–7:50/km</div></div>
       <div><div class="pacing-item-label">Tempo pace</div><div class="pacing-item-val">4:50–5:05/km</div></div>
       <div><div class="pacing-item-label">Interval pace</div><div class="pacing-item-val">4:48/km</div></div>
       <div><div class="pacing-item-label">Sub-24 avg</div><div class="pacing-item-val">4:48/km</div></div>
@@ -214,7 +214,7 @@
     { label:"Wed", type:"Easy", session:"RIOT Wednesday Night Run", detail:"5km easy", emoji:"🟢" },
     { label:"Fri", type:"Tempo", session:"Tempo Run", detail:"Warmup + 2km at 4:48/km + cooldown", emoji:"🟡" },
     { label:"Sat", type:"Easy", session:"RIOT Social Run", detail:"5km easy", emoji:"🟢" },
-    { label:"Sun", type:"Long", session:"Long Easy Run", detail:"10km easy", emoji:"🔵" },
+    { label:"Sun", type:"Easy", session:"Zone 1 Easy Run", detail:"3km easy", emoji:"🟢" },
   ]},
 
   { week:8, theme:"Race Week 🏁", days:[
@@ -226,7 +226,7 @@
   ]},
 ];
 
-  const TOTAL = plan.length * 4;
+  const TOTAL = plan.length * 5;
   let activeWeek = 0;
   let completed = {};
 
