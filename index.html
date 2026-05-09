@@ -45,46 +45,48 @@
         { label:"Sat", type:"Long",  session:"RIOT Social Run",         detail:"10 km easy", emoji:"🔵" },
       ]},
       { week:2, theme:"Find Your Rhythm", days:[
-        { label:"Mon", type:"Speed", session:"Intervals",               detail:"5 × 600m @ 4:48/km — 90s rest between each", emoji:"🔴" },
+        { label:"Mon", type:"Speed", session:"Intervals",               detail:"5 × 600m @ 4:50/km — 2 min rest between each", emoji:"🔴" },
         { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy", emoji:"🟢" },
         { label:"Thu", type:"Tempo", session:"Tempo Run",               detail:"2.5 km @ 5:20/km", emoji:"🟡" },
         { label:"Sat", type:"Long",  session:"RIOT Social Run",         detail:"10 km easy", emoji:"🔵" },
       ]},
       { week:3, theme:"Push the Pace", days:[
-        { label:"Mon", type:"Speed", session:"Intervals",               detail:"4 × 800m @ 4:48/km — 2 min rest between each", emoji:"🔴" },
+        { label:"Mon", type:"Speed", session:"Intervals",               detail:"4 × 800m @ 4:50/km — 3 min rest between each", emoji:"🔴" },
         { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy", emoji:"🟢" },
         { label:"Thu", type:"Tempo", session:"Tempo Run",               detail:"3 km @ 5:15/km", emoji:"🟡" },
         { label:"Sat", type:"Long",  session:"RIOT Social Run",         detail:"10 km easy", emoji:"🔵" },
       ]},
       { week:4, theme:"Lock in the Effort", days:[
-        { label:"Mon", type:"Speed", session:"Intervals",               detail:"4 × 1000m @ 4:45/km — 2.5 min rest between each", emoji:"🔴" },
+        { label:"Mon", type:"Speed", session:"Intervals",               detail:"4 × 1000m @ 4:45/km — 3:30 min rest between each", emoji:"🔴" },
         { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy", emoji:"🟢" },
         { label:"Thu", type:"Tempo", session:"Tempo Run",               detail:"3.5 km @ 5:10/km", emoji:"🟡" },
         { label:"Sat", type:"Long",  session:"RIOT Social Run",         detail:"10 km easy", emoji:"🔵" },
       ]},
       { week:5, theme:"Race Pace Sharpening", days:[
-        { label:"Mon", type:"Speed", session:"Intervals",               detail:"5 × 800m @ 4:45/km — 2 min rest between each", emoji:"🔴" },
+        { label:"Mon", type:"Speed", session:"Intervals",               detail:"5 × 800m @ 4:45/km — 3 min rest between each", emoji:"🔴" },
         { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy", emoji:"🟢" },
         { label:"Thu", type:"Tempo", session:"Tempo Run",               detail:"4 km @ 5:05/km", emoji:"🟡" },
         { label:"Sat", type:"Long",  session:"RIOT Social Run",         detail:"10 km easy", emoji:"🔵" },
       ]},
       { week:6, theme:"Peak Volume", days:[
-        { label:"Mon", type:"Speed", session:"Intervals",               detail:"5 × 1000m @ 4:40/km — 2.5 min rest between each", emoji:"🔴" },
+        { label:"Mon", type:"Speed", session:"Intervals",               detail:"5 × 1000m @ 4:45/km — 3:30 min rest between each", emoji:"🔴" },
         { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy", emoji:"🟢" },
-        { label:"Thu", type:"Tempo", session:"Tempo Run",               detail:"4.5 km @ 5:00/km — peak tempo", emoji:"🟡" },
+        { label:"Thu", type:"Tempo", session:"Tempo Run",               detail:"4.5 km @ 5:00/km — peak tempo 💪", emoji:"🟡" },
         { label:"Sat", type:"Long",  session:"RIOT Social Run",         detail:"10 km easy", emoji:"🔵" },
       ]},
       { week:7, theme:"Sharpen & Taper", days:[
-        { label:"Mon", type:"Speed", session:"Sharpener",               detail:"4 × 400m @ 4:40/km — stay sharp, don't strain", emoji:"🔴" },
+        { label:"Mon", type:"Speed", session:"Sharpener",               detail:"4 × 400m @ 4:45/km — stay sharp, don't strain", emoji:"🔴" },
         { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy", emoji:"🟢" },
         { label:"Thu", type:"Tempo", session:"Strides",                 detail:"4 × 100m strides — fast and relaxed, full recovery between each", emoji:"🟡" },
         { label:"Sat", type:"Easy",  session:"RIOT Social Run",         detail:"5 km easy", emoji:"🟢" },
+        { label:"Sun", type:"Easy",  session:"Zone 1 Easy Run",         detail:"3 km easy — just keep legs ticking", emoji:"🟢" },
       ]},
       { week:8, theme:"Race Week 🏁", days:[
         { label:"Mon", type:"Speed", session:"Tune-up Strides",         detail:"4 × 200m @ relaxed fast effort — feel light", emoji:"🔴" },
         { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy — keep it genuinely easy", emoji:"🟢" },
+        { label:"Fri", type:"Rest",  session:"Rest / Walk",             detail:"Full recovery day — save everything for Sunday", emoji:"⚪" },
         { label:"Sat", type:"Easy",  session:"RIOT Social Run",         detail:"5 km easy", emoji:"🟢" },
-        { label:"Sun", type:"Race",  session:"🏆 RACE DAY",             detail:"Go sub-23! Target 4:35/km — trust your training", emoji:"🏆" },
+        { label:"Sun", type:"Race",  session:"🏆 RACE DAY",             detail:"Go sub-24! Target 4:48/km — trust your training", emoji:"🏆" },
       ]},
     ];
 
@@ -144,9 +146,9 @@
               h("span", { style:{ fontFamily:syne, fontSize:11, letterSpacing:"0.2em", color:"#555", textTransform:"uppercase" } }, "8-Week Training Plan")
             ),
             h("h1", { style:{ fontFamily:syne, fontSize:"clamp(26px,8vw,40px)", fontWeight:800, lineHeight:1.1, marginBottom:8 } },
-              "Sub-", h("span", { style:{ color:"#ef4444" } }, "23"), " Minute 5K Goal"
+              "Sub-", h("span", { style:{ color:"#ef4444" } }, "24"), " Minute 5K Goal"
             ),
-            h("p", { style:{ color:"#555", fontSize:12, marginBottom:20 } }, "Target: 4:35/km · RIOT runs included · 8 weeks"),
+            h("p", { style:{ color:"#555", fontSize:12, marginBottom:20 } }, "Target: 4:48/km · RIOT runs included · 8 weeks"),
             h("div", { style:{ display:"flex", alignItems:"center", gap:12 } },
               h("div", { style:{ flex:1, height:4, background:"#1e1e2e", borderRadius:2, overflow:"hidden" } },
                 h("div", { style:{ width:pct+"%", height:"100%", background:"linear-gradient(90deg,#ef4444,#f97316)", borderRadius:2, transition:"width 0.4s" } })
