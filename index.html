@@ -4,20 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Sub-24 5K Plan</title>
-
-  <!-- PWA / iOS home screen -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="5K Plan" />
   <meta name="theme-color" content="#0a0a0f" />
-
-  <!-- React via CDN (no build step needed) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { background: #0a0a0f; min-height: 100%; }
@@ -25,11 +17,21 @@
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: #111; }
     ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
-    .week-btn { transition: all 0.2s; }
+    .week-btn { transition: all 0.15s; }
     .week-btn:hover { background: rgba(255,255,255,0.07) !important; }
-    .day-card { transition: all 0.2s; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-    .day-card:active { transform: scale(0.98); opacity: 0.85; }
-    .done-card { opacity: 0.45; }
+    .day-card { transition: opacity 0.2s; -webkit-tap-highlight-color: transparent; }
+    .day-card:active { opacity: 0.7; }
+    .done-card { opacity: 0.5; }
+    .note-area {
+      width: 100%; background: #0f0f18; border: 1px solid #2a2a3a;
+      border-radius: 6px; color: #aaa; font-family: 'Courier New', monospace;
+      font-size: 12px; padding: 8px 10px; resize: none; outline: none;
+      margin-top: 10px; line-height: 1.5;
+    }
+    .note-area:focus { border-color: #ef4444; color: #e2e2e8; }
+    .note-area::placeholder { color: #333; }
+    .nav-tab { background: none; border: none; cursor: pointer; transition: color 0.15s; }
+    .nav-tab:active { opacity: 0.7; }
   </style>
 </head>
 <body>
@@ -39,63 +41,56 @@
 
     const plan = [
       { week:1, theme:"Build the Base", days:[
-        { label:"Mon", type:"Speed", session:"Intervals",               detail:"6 × 400m @ 4:50/km — 90s rest between each", emoji:"🔴" },
-        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy", emoji:"🟢" },
-        { label:"Thu", type:"Tempo", session:"Tempo Run",               detail:"2 km @ 5:25/km — comfortably hard", emoji:"🟡" },
-        { label:"Sat", type:"Long",  session:"RIOT Social Run",         detail:"10 km easy", emoji:"🔵" },
+        { label:"Tue", type:"Speed", session:"Intervals",                detail:"6 x 400m @ 4:50/km - 90s rest between each",        emoji:"🔴", km:5  },
+        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy",                                          emoji:"🟢", km:5  },
+        { label:"Thu", type:"Tempo", session:"Tempo Run",                detail:"2 km @ 5:25/km - comfortably hard",                  emoji:"🟡", km:4  },
+        { label:"Sat", type:"Long",  session:"RIOT Social Run",          detail:"10 km easy",                                         emoji:"🔵", km:10 },
       ]},
       { week:2, theme:"Find Your Rhythm", days:[
-        { label:"Mon", type:"Speed", session:"Intervals",               detail:"5 × 600m @ 4:50/km — 2 min rest between each", emoji:"🔴" },
-        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy", emoji:"🟢" },
-        { label:"Thu", type:"Tempo", session:"Tempo Run",               detail:"2.5 km @ 5:20/km", emoji:"🟡" },
-        { label:"Sat", type:"Long",  session:"RIOT Social Run",         detail:"10 km easy", emoji:"🔵" },
+        { label:"Tue", type:"Speed", session:"Intervals",                detail:"5 x 600m @ 4:50/km - 2 min rest between each",       emoji:"🔴", km:6  },
+        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy",                                          emoji:"🟢", km:5  },
+        { label:"Thu", type:"Tempo", session:"Tempo Run",                detail:"2.5 km @ 5:20/km",                                   emoji:"🟡", km:5  },
+        { label:"Sat", type:"Long",  session:"RIOT Social Run",          detail:"10 km easy",                                         emoji:"🔵", km:10 },
       ]},
       { week:3, theme:"Push the Pace", days:[
-        { label:"Mon", type:"Speed", session:"Intervals",               detail:"4 × 800m @ 4:50/km — 3 min rest between each", emoji:"🔴" },
-        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy", emoji:"🟢" },
-        { label:"Thu", type:"Tempo", session:"Tempo Run",               detail:"3 km @ 5:15/km", emoji:"🟡" },
-        { label:"Sat", type:"Long",  session:"RIOT Social Run",         detail:"10 km easy", emoji:"🔵" },
+        { label:"Tue", type:"Speed", session:"Intervals",                detail:"4 x 800m @ 4:50/km - 3 min rest between each",       emoji:"🔴", km:6  },
+        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy",                                          emoji:"🟢", km:5  },
+        { label:"Thu", type:"Tempo", session:"Tempo Run",                detail:"3 km @ 5:15/km",                                     emoji:"🟡", km:5  },
+        { label:"Sat", type:"Long",  session:"RIOT Social Run",          detail:"10 km easy",                                         emoji:"🔵", km:10 },
       ]},
       { week:4, theme:"Lock in the Effort", days:[
-        { label:"Mon", type:"Speed", session:"Intervals",               detail:"4 × 1000m @ 4:45/km — 3:30 min rest between each", emoji:"🔴" },
-        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy", emoji:"🟢" },
-        { label:"Thu", type:"Tempo", session:"Tempo Run",               detail:"3.5 km @ 5:10/km", emoji:"🟡" },
-        { label:"Sat", type:"Long",  session:"RIOT Social Run",         detail:"10 km easy", emoji:"🔵" },
+        { label:"Tue", type:"Speed", session:"Intervals",                detail:"4 x 1000m @ 4:45/km - 3:30 min rest between each",   emoji:"🔴", km:7  },
+        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy",                                          emoji:"🟢", km:5  },
+        { label:"Thu", type:"Tempo", session:"Tempo Run",                detail:"3.5 km @ 5:10/km",                                   emoji:"🟡", km:6  },
+        { label:"Sat", type:"Long",  session:"RIOT Social Run",          detail:"10 km easy",                                         emoji:"🔵", km:10 },
       ]},
       { week:5, theme:"Race Pace Sharpening", days:[
-        { label:"Mon", type:"Speed", session:"Intervals",               detail:"5 × 800m @ 4:45/km — 3 min rest between each", emoji:"🔴" },
-        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy", emoji:"🟢" },
-        { label:"Thu", type:"Tempo", session:"Tempo Run",               detail:"4 km @ 5:05/km", emoji:"🟡" },
-        { label:"Sat", type:"Long",  session:"RIOT Social Run",         detail:"10 km easy", emoji:"🔵" },
+        { label:"Tue", type:"Speed", session:"Intervals",                detail:"5 x 800m @ 4:45/km - 3 min rest between each",       emoji:"🔴", km:7  },
+        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy",                                          emoji:"🟢", km:5  },
+        { label:"Thu", type:"Tempo", session:"Tempo Run",                detail:"4 km @ 5:05/km",                                     emoji:"🟡", km:6  },
+        { label:"Sat", type:"Long",  session:"RIOT Social Run",          detail:"10 km easy",                                         emoji:"🔵", km:10 },
       ]},
       { week:6, theme:"Peak Volume", days:[
-        { label:"Mon", type:"Speed", session:"Intervals",               detail:"5 × 1000m @ 4:45/km — 3:30 min rest between each", emoji:"🔴" },
-        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy", emoji:"🟢" },
-        { label:"Thu", type:"Tempo", session:"Tempo Run",               detail:"4.5 km @ 5:00/km — peak tempo", emoji:"🟡" },
-        { label:"Sat", type:"Long",  session:"RIOT Social Run",         detail:"10 km easy", emoji:"🔵" },
+        { label:"Tue", type:"Speed", session:"Intervals",                detail:"5 x 1000m @ 4:45/km - 3:30 min rest between each",   emoji:"🔴", km:8  },
+        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy",                                          emoji:"🟢", km:5  },
+        { label:"Thu", type:"Tempo", session:"Tempo Run",                detail:"4.5 km @ 5:00/km - peak tempo",                     emoji:"🟡", km:7  },
+        { label:"Sat", type:"Long",  session:"RIOT Social Run",          detail:"10 km easy",                                         emoji:"🔵", km:10 },
       ]},
       { week:7, theme:"Sharpen & Taper", days:[
-        { label:"Mon", type:"Speed", session:"Sharpener",               detail:"4 × 400m @ 4:45/km — stay sharp, don't strain", emoji:"🔴" },
-        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy", emoji:"🟢" },
-        { label:"Thu", type:"Tempo", session:"Strides",                 detail:"4 × 100m strides — fast and relaxed, full recovery between each", emoji:"🟡" },
-        { label:"Sat", type:"Easy",  session:"RIOT Social Run",         detail:"5 km easy", emoji:"🟢" },
+        { label:"Tue", type:"Speed", session:"Sharpener",                detail:"4 x 400m @ 4:45/km - stay sharp, don't strain",      emoji:"🔴", km:4  },
+        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy",                                          emoji:"🟢", km:5  },
+        { label:"Thu", type:"Tempo", session:"Strides",                  detail:"4 x 100m strides - fast and relaxed",                emoji:"🟡", km:2  },
+        { label:"Sat", type:"Easy",  session:"RIOT Social Run",          detail:"5 km easy",                                          emoji:"🟢", km:5  },
       ]},
-      { week:8, theme:"Race Week 🏁", days:[
-        { label:"Mon", type:"Speed", session:"Tune-up Strides",         detail:"4 × 200m @ relaxed fast effort — feel light", emoji:"🔴" },
-        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy — keep it genuinely easy", emoji:"🟢" },
-        { label:"Sat", type:"Easy",  session:"RIOT Social Run",         detail:"5 km easy", emoji:"🟢" },
-        { label:"Sun", type:"Race",  session:"🏆 RACE DAY",             detail:"Go sub-24! Target 4:48/km — trust your training", emoji:"🏆" },
+      { week:8, theme:"Race Week", days:[
+        { label:"Tue", type:"Speed", session:"Tune-up Strides",          detail:"4 x 200m @ relaxed fast effort - feel light",        emoji:"🔴", km:3  },
+        { label:"Wed", type:"Easy",  session:"RIOT Wednesday Night Run", detail:"5 km easy - keep it genuinely easy",                 emoji:"🟢", km:5  },
+        { label:"Sat", type:"Easy",  session:"RIOT Social Run",          detail:"5 km easy",                                          emoji:"🟢", km:5  },
+        { label:"Sun", type:"Race",  session:"RACE DAY",                 detail:"Go sub-24! Target 4:48/km - trust your training",    emoji:"🏆", km:5  },
       ]},
     ];
 
-    const tips = [
-      "Run easy days EASY — most runners go too fast on recovery days.",
-      "Tempo pace = you can speak a word or two, but not a sentence.",
-      "Intervals at 4:48/km feel hard. If it feels easy, you're not pushing enough.",
-      "Sleep and nutrition matter as much as the sessions themselves.",
-      "The long run builds your aerobic engine — never skip it.",
-      "Week 8 taper is real — trust it, don't add extra runs.",
-    ];
+    const weights = { Speed:4, Tempo:3, Long:1, Easy:1, Rest:0, Race:0 };
 
     const typeStyle = {
       Easy:  { bg:"rgba(74,222,128,0.1)",  color:"#4ade80", border:"rgba(74,222,128,0.2)"  },
@@ -106,63 +101,212 @@
       Race:  { bg:"rgba(250,204,21,0.15)", color:"#facc15", border:"rgba(250,204,21,0.3)"  },
     };
 
-    const pacing = [
-      ["Easy pace",     "7:25–7:50/mi"],
-      ["Tempo pace",    "5:25 → 5:00/km"],
-      ["Interval pace", "4:40–4:50/km"],
-      ["Race target",   "4:35/km (sub-23)"],
-    ];
+    const START_SECS = 26 * 60;
+    const TARGET_SECS = 24 * 60;
+    const IMPROVEMENT = START_SECS - TARGET_SECS;
 
+    function fmtTime(secs) {
+      var m = Math.floor(secs / 60);
+      var s = secs % 60;
+      return m + ":" + String(s).padStart(2, "0");
+    }
+
+    function calcPrediction(completedDays) {
+      var totalWeight = 0, doneWeight = 0;
+      var byType = {};
+      plan.forEach(function(week, wi) {
+        week.days.forEach(function(day, di) {
+          var w = weights[day.type] || 0;
+          totalWeight += w;
+          if (!byType[day.type]) byType[day.type] = { total:0, done:0 };
+          byType[day.type].total += 1;
+          if (completedDays[wi + "-" + di]) {
+            doneWeight += w;
+            byType[day.type].done += 1;
+          }
+        });
+      });
+      var pct = totalWeight > 0 ? doneWeight / totalWeight : 0;
+      var predictedSecs = START_SECS - Math.round(pct * IMPROVEMENT);
+      return { pct:pct, predictedSecs:predictedSecs, byType:byType };
+    }
+
+
+
+
+
+    // ── Prediction page ──────────────────────────────────────────────
+    function PredictionPage(props) {
+      var completedDays = props.completedDays;
+      var result = calcPrediction(completedDays);
+      var pct = result.pct;
+      var predictedSecs = result.predictedSecs;
+      var byType = result.byType;
+      var mono = "'DM Mono','Courier New',monospace";
+      var syne = "'Syne',sans-serif";
+      var secondsGained = START_SECS - predictedSecs;
+      var arcR = 90;
+      var arcLen = Math.PI * arcR;
+      var arcOffset = arcLen * (1 - Math.min(pct, 1));
+
+      var breakdowns = [
+        { type:"Speed", label:"Intervals",  color:"#f87171", desc:"4x weight" },
+        { type:"Tempo", label:"Tempo Runs", color:"#fbbf24", desc:"3x weight" },
+        { type:"Long",  label:"Long Runs",  color:"#60a5fa", desc:"1x weight" },
+        { type:"Easy",  label:"Easy Runs",  color:"#4ade80", desc:"1x weight" },
+      ];
+
+      return h("div", { style:{ maxWidth:640, margin:"0 auto", padding:"28px 16px 60px" } },
+
+        h("div", { style:{
+          background:"linear-gradient(135deg,rgba(239,68,68,0.08),rgba(249,115,22,0.04))",
+          border:"1px solid rgba(239,68,68,0.15)", borderRadius:16,
+          padding:"32px 24px 28px", textAlign:"center", marginBottom:24,
+        }},
+          h("div", { style:{ fontFamily:syne, fontSize:11, letterSpacing:"0.2em", color:"#555", textTransform:"uppercase", marginBottom:20 } },
+            "Current 5K Prediction"
+          ),
+          h("div", { style:{ position:"relative", width:210, height:120, margin:"0 auto 24px" } },
+            h("svg", { width:210, height:120, viewBox:"0 0 210 120" },
+              h("defs", null,
+                h("linearGradient", { id:"arcGrad", x1:"0%", y1:"0%", x2:"100%", y2:"0%" },
+                  h("stop", { offset:"0%", stopColor:"#ef4444" }),
+                  h("stop", { offset:"100%", stopColor:"#f97316" })
+                )
+              ),
+              h("path", { d:"M 15 105 A 90 90 0 0 1 195 105", fill:"none", stroke:"#1e1e2e", strokeWidth:10, strokeLinecap:"round" }),
+              h("path", { d:"M 15 105 A 90 90 0 0 1 195 105", fill:"none", stroke:"url(#arcGrad)", strokeWidth:10, strokeLinecap:"round",
+                strokeDasharray:arcLen, strokeDashoffset:arcOffset,
+                style:{ transition:"stroke-dashoffset 0.7s ease" }
+              }),
+              h("text", { x:15,  y:118, fill:"#444", fontSize:9, fontFamily:mono, textAnchor:"middle" }, "26:00"),
+              h("text", { x:195, y:118, fill:"#4ade80", fontSize:9, fontFamily:mono, textAnchor:"middle" }, "24:00")
+            ),
+            h("div", { style:{ position:"absolute", bottom:20, left:"50%", transform:"translateX(-50%)", whiteSpace:"nowrap" } },
+              h("span", { style:{ fontFamily:syne, fontSize:42, fontWeight:800, color: predictedSecs <= TARGET_SECS ? "#4ade80" : "#e2e2e8" } },
+                fmtTime(predictedSecs)
+              )
+            )
+          ),
+          h("div", { style:{ display:"flex", justifyContent:"center", gap:36 } },
+            h("div", null,
+              h("div", { style:{ fontSize:10, color:"#444", marginBottom:2 } }, "started"),
+              h("div", { style:{ fontFamily:syne, fontSize:15, fontWeight:700, color:"#555" } }, "26:00")
+            ),
+            h("div", null,
+              h("div", { style:{ fontSize:10, color:"#444", marginBottom:2 } }, "gained"),
+              h("div", { style:{ fontFamily:syne, fontSize:15, fontWeight:700, color:"#ef4444" } }, "-" + secondsGained + "s")
+            ),
+            h("div", null,
+              h("div", { style:{ fontSize:10, color:"#444", marginBottom:2 } }, "target"),
+              h("div", { style:{ fontFamily:syne, fontSize:15, fontWeight:700, color:"#4ade80" } }, "24:00")
+            )
+          ),
+          pct === 0 && h("p", { style:{ fontSize:11, color:"#333", marginTop:16 } },
+            "Tick off sessions on the Plan tab to see your prediction move"
+          )
+        ),
+
+        h("div", { style:{ border:"1px solid #1e1e2e", borderRadius:12, padding:"20px" } },
+          h("div", { style:{ fontFamily:syne, fontSize:11, fontWeight:700, color:"#444", letterSpacing:"0.12em", textTransform:"uppercase", marginBottom:18 } },
+            "Contribution Breakdown"
+          ),
+          breakdowns.map(function(b) {
+            var data = byType[b.type] || { total:0, done:0 };
+            var typePct = data.total > 0 ? data.done / data.total : 0;
+            return h("div", { key:b.type, style:{ marginBottom:16 } },
+              h("div", { style:{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:6 } },
+                h("div", { style:{ display:"flex", alignItems:"center", gap:8 } },
+                  h("span", { style:{ fontFamily:syne, fontSize:13, fontWeight:700, color:b.color } }, b.label),
+                  h("span", { style:{ fontSize:10, color:"#333" } }, b.desc)
+                ),
+                h("span", { style:{ fontSize:11, color:"#444", fontFamily:mono } }, data.done + "/" + data.total)
+              ),
+              h("div", { style:{ height:3, background:"#1e1e2e", borderRadius:2, overflow:"hidden" } },
+                h("div", { style:{
+                  height:"100%", width:(typePct*100)+"%", background:b.color,
+                  borderRadius:2, opacity:0.8, transition:"width 0.5s ease"
+                }})
+              )
+            );
+          })
+        )
+      );
+    }
+
+    // ── Main App ─────────────────────────────────────────────────────
     function App() {
-      const [activeWeek, setActiveWeek] = useState(0);
-      const [completedDays, setCompletedDays] = useState(() => {
-        try { return JSON.parse(localStorage.getItem("5k-progress") || "{}"); } catch { return {}; }
+      var [activeWeek, setActiveWeek] = useState(0);
+      var [page, setPage] = useState("plan");
+
+      var [completedDays, setCompletedDays] = useState(function() {
+        try { return JSON.parse(localStorage.getItem("5k-progress") || "{}"); } catch(e) { return {}; }
       });
 
-      useEffect(() => {
-        try { localStorage.setItem("5k-progress", JSON.stringify(completedDays)); } catch {}
+      useEffect(function() {
+        try { localStorage.setItem("5k-progress", JSON.stringify(completedDays)); } catch(e) {}
       }, [completedDays]);
 
-      const toggleDay = (wi, di) => {
-        const key = `${wi}-${di}`;
-        setCompletedDays(prev => ({ ...prev, [key]: !prev[key] }));
-      };
+      function toggleDay(wi, di) {
+        var key = wi + "-" + di;
+        setCompletedDays(function(prev) {
+          var next = Object.assign({}, prev);
+          next[key] = !prev[key];
+          return next;
+        });
+      }
 
-      const week = plan[activeWeek];
-      const doneCount = Object.values(completedDays).filter(Boolean).length;
-      const totalDays = plan.reduce((sum, w) => sum + w.days.length, 0);
-      const pct = Math.round((doneCount / totalDays) * 100);
-      const mono = "'DM Mono','Courier New',monospace";
-      const syne = "'Syne',sans-serif";
+      var week = plan[activeWeek];
+      var doneCount = Object.values(completedDays).filter(Boolean).length;
+      var totalDays = plan.reduce(function(sum, w) { return sum + w.days.length; }, 0);
+      var pct = Math.round((doneCount / totalDays) * 100);
+      var mono = "'DM Mono','Courier New',monospace";
+      var syne = "'Syne',sans-serif";
+      var predicted = calcPrediction(completedDays).predictedSecs;
 
       return h("div", { style:{ fontFamily:mono, background:"#0a0a0f", minHeight:"100vh", color:"#e2e2e8" } },
 
-        h("div", { style:{ background:"linear-gradient(135deg,#0f0f1a 0%,#1a0a0a 100%)", borderBottom:"1px solid #1e1e2e", padding:"36px 24px 28px" } },
+        // ── Header
+        h("div", { style:{ background:"linear-gradient(135deg,#0f0f1a 0%,#1a0a0a 100%)", borderBottom:"1px solid #1e1e2e", padding:"36px 24px 0" } },
           h("div", { style:{ maxWidth:640, margin:"0 auto" } },
             h("div", { style:{ display:"flex", alignItems:"center", gap:10, marginBottom:8 } },
-              h("span", { style:{ fontSize:26 } }, "🏃"),
+              h("span", { style:{ fontSize:24 } }, "🏃"),
               h("span", { style:{ fontFamily:syne, fontSize:11, letterSpacing:"0.2em", color:"#555", textTransform:"uppercase" } }, "8-Week Training Plan")
             ),
-            h("h1", { style:{ fontFamily:syne, fontSize:"clamp(26px,8vw,40px)", fontWeight:800, lineHeight:1.1, marginBottom:8 } },
+            h("h1", { style:{ fontFamily:syne, fontSize:"clamp(24px,7vw,38px)", fontWeight:800, lineHeight:1.1, marginBottom:8 } },
               "Sub-", h("span", { style:{ color:"#ef4444" } }, "24"), " Minute 5K Goal"
             ),
-            h("p", { style:{ color:"#555", fontSize:12, marginBottom:20 } }, "Target: 4:48/km · RIOT runs included · 8 weeks"),
-            h("div", { style:{ display:"flex", alignItems:"center", gap:12 } },
+            h("p", { style:{ color:"#555", fontSize:12, marginBottom:18 } }, "Target: 4:48/km  |  RIOT runs included  |  8 weeks"),
+            h("div", { style:{ display:"flex", alignItems:"center", gap:12, marginBottom:20 } },
               h("div", { style:{ flex:1, height:4, background:"#1e1e2e", borderRadius:2, overflow:"hidden" } },
                 h("div", { style:{ width:pct+"%", height:"100%", background:"linear-gradient(90deg,#ef4444,#f97316)", borderRadius:2, transition:"width 0.4s" } })
               ),
-              h("span", { style:{ fontSize:11, color:"#444", whiteSpace:"nowrap" } }, pct+"% done")
+              h("span", { style:{ fontSize:11, color:"#444", whiteSpace:"nowrap" } }, pct + "% done")
+            ),
+            h("div", { style:{ display:"flex", gap:0 } },
+              h("button", { className:"nav-tab", onClick:function(){ setPage("plan"); }, style:{
+                padding:"10px 20px", fontFamily:mono,
+                borderBottom: page==="plan" ? "2px solid #ef4444" : "2px solid transparent",
+                color: page==="plan" ? "#ef4444" : "#444", fontSize:12, letterSpacing:"0.05em",
+              }}, "Plan"),
+              h("button", { className:"nav-tab", onClick:function(){ setPage("predict"); }, style:{
+                padding:"10px 20px", fontFamily:mono,
+                borderBottom: page==="predict" ? "2px solid #ef4444" : "2px solid transparent",
+                color: page==="predict" ? "#ef4444" : "#444", fontSize:12, letterSpacing:"0.05em",
+              }}, "Prediction" + (doneCount > 0 ? "  " + fmtTime(predicted) : ""))
             )
           )
         ),
 
-        h("div", { style:{ maxWidth:640, margin:"0 auto", padding:"24px 16px 48px" } },
+        // ── Plan page
+        page === "plan" && h("div", { style:{ maxWidth:640, margin:"0 auto", padding:"24px 16px 48px" } },
 
+          // Week tabs
           h("div", { style:{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:28 } },
-            plan.map((w, i) => {
-              const active = i === activeWeek;
-              const wDone = plan[i].days.every((_, d) => completedDays[i+"-"+d]);
-              return h("button", { key:i, className:"week-btn", onClick:() => setActiveWeek(i), style:{
+            plan.map(function(w, i) {
+              var active = i === activeWeek;
+              var wDone = plan[i].days.every(function(_, d) { return completedDays[i+"-"+d]; });
+              return h("button", { key:i, className:"week-btn", onClick:function(){ setActiveWeek(i); }, style:{
                 padding:"6px 13px", borderRadius:6,
                 border: active ? "1px solid #ef4444" : "1px solid #1e1e2e",
                 background: active ? "rgba(239,68,68,0.12)" : "rgba(255,255,255,0.03)",
@@ -172,43 +316,59 @@
             })
           ),
 
+          // Week heading
           h("div", { style:{ marginBottom:20 } },
             h("div", { style:{ display:"flex", alignItems:"baseline", gap:10 } },
-              h("span", { style:{ fontFamily:syne, fontSize:30, fontWeight:800 } }, "Week "+week.week),
+              h("span", { style:{ fontFamily:syne, fontSize:30, fontWeight:800 } }, "Week " + week.week),
               h("span", { style:{ color:"#444", fontSize:13 } }, "of 8")
             ),
             h("p", { style:{ color:"#777", fontSize:14, marginTop:2 } }, week.theme)
           ),
 
-          h("div", { style:{ display:"flex", flexDirection:"column", gap:10, marginBottom:32 } },
-            week.days.map((day, di) => {
-              const key = activeWeek+"-"+di;
-              const isDone = completedDays[key];
-              const ts = typeStyle[day.type];
-              return h("div", { key:di, className:"day-card"+(isDone?" done-card":""), onClick:() => toggleDay(activeWeek, di), style:{
-                display:"flex", alignItems:"flex-start", gap:14, padding:"16px 18px", borderRadius:10,
-                border:"1px solid "+(isDone?"#222":"#1e1e2e"),
-                background: isDone ? "rgba(255,255,255,0.01)" : "rgba(255,255,255,0.03)",
-                position:"relative", overflow:"hidden",
-              }},
-                isDone && h("div", { style:{ position:"absolute", top:0, left:0, width:3, height:"100%", background:"#4ade80" } }),
-                h("div", { style:{ textAlign:"center", minWidth:34 } },
-                  h("div", { style:{ fontSize:10, color:"#444" } }, day.label),
-                  h("div", { style:{ fontSize:22, marginTop:2 } }, isDone ? "✅" : day.emoji)
-                ),
-                h("div", { style:{ flex:1 } },
-                  h("div", { style:{ display:"flex", alignItems:"center", gap:8, marginBottom:5, flexWrap:"wrap" } },
-                    h("span", { style:{ fontFamily:syne, fontSize:15, fontWeight:700 } }, day.session),
-                    h("span", { style:{ fontSize:10, padding:"2px 7px", borderRadius:4, border:"1px solid", letterSpacing:"0.08em", textTransform:"uppercase", backgroundColor:ts.bg, color:ts.color, borderColor:ts.border } }, day.type)
+          // Session cards
+          h("div", { style:{ display:"flex", flexDirection:"column", gap:10 } },
+            week.days.map(function(day, di) {
+              var key = activeWeek + "-" + di;
+              var isDone = !!completedDays[key];
+              var ts = typeStyle[day.type];
+              return h("div", { key:di },
+                h("div", {
+                  className:"day-card" + (isDone ? " done-card" : ""),
+                  onClick: function() { toggleDay(activeWeek, di); },
+                  style:{
+                    display:"flex", alignItems:"flex-start", gap:14, padding:"16px 18px",
+                    borderRadius: 10,
+                    border:"1px solid " + (isDone ? "#1a1a1a" : "#1e1e2e"),
+                    background: isDone ? "rgba(255,255,255,0.01)" : "rgba(255,255,255,0.03)",
+                    position:"relative", overflow:"hidden", cursor:"pointer",
+                  }
+                },
+                  isDone && h("div", { style:{ position:"absolute", top:0, left:0, width:3, height:"100%", background:"#4ade80" } }),
+                  h("div", { style:{ textAlign:"center", minWidth:34 } },
+                    h("div", { style:{ fontSize:10, color:"#444" } }, day.label),
+                    h("div", { style:{ fontSize:22, marginTop:2 } }, isDone ? "✅" : day.emoji)
                   ),
-                  h("p", { style:{ fontSize:13, color: isDone ? "#3a3a3a" : "#777", lineHeight:1.5 } }, day.detail)
+                  h("div", { style:{ flex:1 } },
+                    h("div", { style:{ display:"flex", alignItems:"center", gap:8, marginBottom:5, flexWrap:"wrap" } },
+                      h("span", { style:{ fontFamily:syne, fontSize:15, fontWeight:700 } }, day.session),
+                      h("span", { style:{
+                        fontSize:10, padding:"2px 7px", borderRadius:4, border:"1px solid",
+                        letterSpacing:"0.08em", textTransform:"uppercase",
+                        backgroundColor:ts.bg, color:ts.color, borderColor:ts.border
+                      }}, day.type)
+                    ),
+                    h("p", { style:{ fontSize:13, color:isDone?"#333":"#777", lineHeight:1.5 } }, day.detail)
+                  )
                 )
               );
             })
           ),
 
           h("p", { style:{ textAlign:"center", fontSize:11, color:"#2a2a2a", marginTop:24 } }, "Tap any session to mark it complete")
-        )
+        ),
+
+        // ── Prediction page
+        page === "predict" && h(PredictionPage, { completedDays:completedDays })
       );
     }
 
