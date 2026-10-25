@@ -272,6 +272,7 @@
 
   const past = [];
   let current = '';
+  let timer = null;
 
   function normalize(raw) {
     const text = raw.trim();
@@ -307,10 +308,22 @@
     reload.disabled = false;
     back.disabled = past.length === 0;
     loader.classList.add('on');
+    clearTimeout(timer);
+    timer = setTimeout(giveUp, 15000);
     frame.src = href;
   }
 
-  frame.addEventListener('load', () => loader.classList.remove('on'));
+  // Some sites never finish loading inside another page. Stop after a while and say so.
+  function giveUp() {
+    loader.classList.remove('on');
+    frame.src = 'about:blank';
+    setStatus('This site didn’t finish loading. Many sites don’t allow being shown inside other pages. Use the button at the top right to open it in Safari.');
+  }
+
+  frame.addEventListener('load', () => {
+    clearTimeout(timer);
+    loader.classList.remove('on');
+  });
 
   // If the page isn't allowed to load other sites, say so instead of staying blank.
   document.addEventListener('securitypolicyviolation', (event) => {
